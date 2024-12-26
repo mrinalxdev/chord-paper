@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chord DHT Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        #chord-ring {
+            width: 800px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        
+        .node circle {
+            fill: #4299e1;
+            stroke: #2b6cb0;
+            stroke-width: 2px;
+        }
+        
+        .node text {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        
+        .link {
+            stroke: #a0aec0;
+            stroke-width: 1.5px;
+        }
+        
+        .finger-link {
+            stroke: #48bb78;
+            stroke-width: 1px;
+            stroke-dasharray: 5;
+        }
+    </style>
+</head>
+<body>
+    <div id="chord-ring"></div>
+    <script src="/static/js/visualization.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+version: '3'
+
+networks:
+  chord_network:
+    driver: bridge
+
+services:
+  node1:
+    build: .
+    container_name: chord-node1
+    networks:
+      - chord_network
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/node1:/app/data
+    environment:
+      - NODE_ID=1
+    command: ["./chord-node", "-addr", ":8080"]
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  node2:
+    build: .
+    container_name: chord-node2
+    networks:
+      - chord_network
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./data/node2:/app/data
+    environment:
+      - NODE_ID=2
+    command: ["./chord-node", "-addr", ":8080", "-introducer", "chord-node1:8080"]
+    depends_on:
+      node1:
+        condition: service_healthy
+
+  node3:
+    build: .
+    container_name: chord-node3
+    networks:
+      - chord_network
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./data/node3:/app/data
+    environment:
+      - NODE_ID=3
+    command: ["./chord-node", "-addr", ":8080", "-introducer", "chord-node1:8080"]
+    depends_on:
+      node1:
+        condition: service_healthy
